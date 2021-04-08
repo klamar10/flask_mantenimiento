@@ -1,0 +1,75 @@
+{% extends 'Layouts/layout.html' %}
+{% block body%}
+<h1 style="text-align: center">Gestión de configuraciones</h1>
+<hr>
+<br>
+<div class="row">
+
+    <div class="col-md-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+            <strong>Advertencia!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="card border-primary mb-3">
+            <div class="card-header">Tarjeta de registro</div>
+            <div class="card-body">
+                <form method="post" action="/Registrar_configuracion" autocomplete="off">
+                    <div class="mb-3">
+                        <input type="text" name="Ccategoria" id="Ccategoria" placeholder="Categoria" maxlength="30" required class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="number" name="Corden" id="Corden" placeholder="Orden" required min="1" max="99999999999" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="Cdescripcion" id="Cdescripcion" placeholder="Descripcion" maxlength="80" required
+                               class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="number" name="Cvalor1" id="Cvalor1" placeholder="Valor" min="1" max="99999999999" required class="form-control">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-success btn-block"><i class="far fa-save fa-fw"></i> Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card card-body">
+            <div class="table-responsive" style=" height:400px">
+                <h3 style="text-align: center">Listado de configuraciones</h3>
+                <table class="table table-striped table-hover" style="text-align:center">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Categoria</th>
+                        <th>N° Orden</th>
+                        <th>Descripcion</th>
+                        <th>Valor</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for config in configuraciones%}
+                    <tr>
+                        <td>{{config.Cid}}</td>
+                        <td>{{config.Ccategoria}}</td>
+                        <td>{{config.Corden}}</td>
+                        <td>{{config.Cdescripcion}}</td>
+                        <td>{{config.Cvalor1}}</td>
+                        <td><a href="/Editar_Configuracion/{{config.Cid}}" class="btn btn-warning"><i class="far fa-edit fa-fw"></i> Editar</a></td>
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

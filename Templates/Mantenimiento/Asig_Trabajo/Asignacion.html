@@ -1,0 +1,105 @@
+{% extends 'Layouts/layout.html' %}
+{% block body%}
+<h1 style="text-align: center">Asignación de ambientes</h1>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+            <strong>Advertencia!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="col-md-6">
+        <a href="/Mantenimiento/Asignados_Trabajo" class="btn btn-outline-primary"><i
+                class="far fa-arrow-alt-circle-left fa-fw"></i> Atras</a>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card border-primary mb-3">
+            <div class="card-header">Ambientes vinculados</div>
+            <div class="card-body">
+                <div class="table-responsive" style=" height:400px">
+                    <table class="table table-hover" style="text-align: center">
+                        <thead class="">
+                        <tr>
+                            <th>ID</th>
+                            <th>Ambiente</th>
+                            <th>Fecha</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contact in asignados%}
+                        <tr>
+                            <td scope="row">{{contact.MT_Abcodigo}}</td>
+                            <td>{{contact.MT_ABnombre}}</td>
+                            <td>{{contact.MT_ABfech_crea}}</td>
+                            <td>
+                                <a href="/Mantenimiento/Asignados_Trabajo/Eliminar/{{id}}/{{contact.MT_ASFid}}"
+                                   class="btn btn-outline-danger"><i
+                                        class="far fa-trash-alt fa-fw"></i> Eliminar</a></td>
+                            <!--                                class="fas fa-user-times fa-fw"></i></a></td>-->
+                        </tr>
+                        {% endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-danger mb-3">
+            <div class="card-header">Ambientes por vincular</div>
+            <div class="card-body">
+                <form method="post" action="/Mantenimiento/Asignados_Trabajo/Asignaciones/{{id}}" autocomplete="off">
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <select class="custom-select" name="area" id="area" required>
+                                <option disabled selected value>Seleccionar área</option>
+                                {% for e in areas %}
+                                <option value="{{ e.MT_Aid}}">{{e.MT_Anombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-grid col-md-3">
+                            <button type="submit" class="btn btn-outline-info btn-block"><i class="fas fa-search fa-fw"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive" style=" height:350px">
+                    <table class="table table-hover" style="text-align: center">
+                        <thead class="">
+                        <tr>
+                            <th>ID</th>
+                            <th>Ambiente</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contact in pendientes%}
+                        <tr>
+                            <td scope="row">{{contact.MT_Abcodigo}}</td>
+                            <td>{{contact.MT_ABnombre}}</td>
+                            <td>
+                                <a href="/Mantenimiento/Asignados_Trabajo/Asignar/{{id}}/{{contact.MT_AEFid}}"
+                                   class="btn btn-outline-success "><i
+                                        class="fas fa-plus fa-fw"></i> Agregar</a></td>
+                            <!--                                class="fas fa-user-times fa-fw"></i></a></td>-->
+                        </tr>
+                        {% endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

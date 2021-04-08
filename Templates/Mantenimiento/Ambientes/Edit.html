@@ -1,0 +1,35 @@
+{% extends 'Layouts/layout.html' %}
+{% block body%}
+<div class="col-md-5 offset-md-3">
+    <div class="card card-body">
+        <form method="POST" action="/Mantenimiento/Update_MT_Ambiente/{{ambiente.MT_Abcodigo}}">
+            <div class="form-group mb-3">
+                <select class="custom-select" name="empresa" id="empresa" required>
+                    <option disabled selected value>Seleccionar área</option>
+                    {% for e in areas %}
+                    <option value="{{ e.MT_Aid}}" {% if e.MT_Aid == ambiente.MT_Aid %}selected="selected" {% endif %}>{{e.MT_Anombre}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <input type="text" name="MT_ABnombre" id="MT_ABnombre" placeholder="Código de ambiente" maxlength="200" required
+                       value="{{ambiente.MT_ABnombre}}"
+                       class="form-control">
+            </div>
+            <div class="form-group mb-3">
+                <select class="custom-select" name="estado" id="estado" required>
+                    {% for est in estados %}
+                    <option value="{{est.Corden}}" {% if est.Corden== ambiente.MT_ABestado %}selected="selected" {% endif %}>{{ est.Cdescripcion }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-outline-primary btn-block"><i class="fas fa-edit fa-fw"></i> Actualizar</button>
+                <a href="/Mantenimiento/Ambientes" class="btn btn-outline-secondary btn-block"><i class="far fa-arrow-alt-circle-left fa-fw"></i> Atras</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock%}

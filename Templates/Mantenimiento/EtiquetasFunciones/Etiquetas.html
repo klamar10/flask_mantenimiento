@@ -1,0 +1,83 @@
+{% extends 'Mantenimiento/EtiquetasFunciones/List.html' %}
+{% block nav%}
+<h1 style="text-align: center">Etiquetas</h1>
+<hr>
+<br>
+<div class="row">
+
+    <div class="col-md-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+            <strong>Advertencia!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="card border-primary mb-3">
+            <div class="card-header">Tarjeta de registro</div>
+            <div class="card-body">
+                <form method="post" action="/Registrar-etiqueta" autocomplete="off">
+                    <div class="form-group mb-3">
+                        <input type="text" name="MT_Enombre" id="MT_Enombre" placeholder="Nombre de etiqueta" maxlength="200" required
+                               class="form-control">
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-success btn-block"><i class="far fa-plus-square fa-fw"></i>  Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card card-body">
+            <h3 style="text-align: center">Listado de etiquetas</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" style="text-align:center">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Fecha de creacion</th>
+                        <th>Fecha de modificación</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contact in etiquetas%}
+                    <tr>
+                        <td>{{contact.MT_Eid}}</td>
+                        <td>{{contact.MT_Enombre}}</td>
+                        <td>
+                            {% if contact.MT_Eestado == 1 %}
+                            Habilitado
+                            {% else %}
+                            Deshabilitado
+                            {% endif %}
+                        </td>
+                        <td>{{contact.MT_Efech_crea }}</td>
+                        <td>
+                            {% if contact.MT_Efech_mod == None %}
+                            {% else %}
+                            {{contact.MT_Efech_mod}}
+                            {% endif %}
+                        </td>
+                        <td><a href="/Etiquetas-funciones/Editar_etiqueta/{{contact.MT_Eid}}" class="btn btn-warning"><i
+                                class="far fa-edit fa-fw"></i> Editar</a></td>
+                        <td><a href="/Etiquetas-funciones/Asignaciones/{{contact.MT_Eid}}" class="btn btn-primary"><i class="fas fa-network-wired fa-fw"></i> Asignar funciones</a></td>
+                        <!--                        <td><a href="/Eliminar_usuario/{{contact.MT_Aid}}" class="btn btn-danger btn-delete"><i-->
+                        <!--                                class="fas fa-user-times fa-fw"></i> Eliminar</a></td>-->
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
