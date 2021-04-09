@@ -1,0 +1,88 @@
+{% extends 'Mantenimiento/EtiquetasFunciones/List.html' %}
+{% block nav%}
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+            <strong>Advertencia!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <div class="col-md-6">
+        <a href="/Etiquetas-funciones/Etiquetas" class="btn btn-outline-primary"><i
+                class="far fa-arrow-alt-circle-left fa-fw"></i> Atras</a>
+    </div>
+</div>
+<hr>
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card border-primary mb-3">
+            <div class="card-header">Funciones asignadas</div>
+            <div class="card-body">
+                <div class="table-responsive" style=" height:400px">
+                    <table class="table table-hover" style="text-align: center">
+                        <thead class="">
+                        <tr>
+                            <th>ID</th>
+                            <th>Función</th>
+                            <th>Fecha</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contact in asignados%}
+                        <tr>
+                            <td scope="row">{{contact.MT_Fid}}</td>
+                            <td>{{contact.MT_Fnombre}}</td>
+                            <td>{{contact.MT_EFfech_crea}}</td>
+                            <td>
+                                <a href="/Etiquetas-funciones/Eliminar_asignacion/{{contact.MT_EFid}}/{{id}}"
+                                   class="btn btn-outline-danger"><i
+                                        class="far fa-trash-alt fa-fw"></i> Eliminar</a></td>
+                        </tr>
+                        {% endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-danger mb-3">
+            <div class="card-header">Funciones por asignar</div>
+            <div class="card-body">
+                <div class="table-responsive" style=" height:400px">
+                    <table class="table table-hover" style="text-align: center">
+                        <thead class="">
+                        <tr>
+                            <th>ID</th>
+                            <th>Función</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for contact in funciones%}
+                        <tr>
+                            <td scope="row">{{contact.MT_Fid}}</td>
+                            <td>{{contact.MT_Fnombre}}</td>
+                            <td><a href="/Etiquetas-funciones/Asignar-funcion/{{id}}/{{contact.MT_Fid}}"
+                                   class="btn btn-outline-success "><i
+                                    class="fas fa-plus fa-fw"></i> Agregar</a></td>
+                            <!--                                class="fas fa-user-times fa-fw"></i></a></td>-->
+                        </tr>
+                        {% endfor%}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

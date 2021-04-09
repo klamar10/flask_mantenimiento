@@ -1,0 +1,111 @@
+{% extends 'Layouts/layout.html' %}
+{% block body%}
+<h1 style="text-align: center">Gestión de usuarios</h1>
+<hr>
+<br>
+<div class="row">
+
+    <div class="col-md-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+            <strong>Advertencia!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="card border-primary mb-3">
+            <div class="card-header">Tarjeta de registro</div>
+            <div class="card-body">
+                <form method="post" action="/Registrar_usuario" autocomplete="off">
+                    <div class="mb-3">
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre" maxlength="200" required
+                               class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="text" name="apellido" id="apellido" placeholder="Apellido" maxlength="200" required
+                               class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="email" name="correo" id="correo" placeholder="Correo" maxlength="150" required
+                               class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="password" name="password" id="pasword" placeholder="Contraseña" maxlength="20"
+                               required
+                               class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <select class="custom-select" name="empresa" id="empresa" required>
+                            <option disabled selected value>Seleccionar empresa</option>
+                            {% for e in empresas %}
+                            <option value="{{ e.Eid}}">{{e.Enombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-success btn-block"><i
+                                class="fas fa-user-plus fa-fw"></i> Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card card-body">
+            <h3 style="text-align: center">Listado de usuarios</h3>
+            <div class="table-responsive" style=" height:400px">
+                <table class="table table-striped table-hover" style="text-align:center">
+                    <thead>
+                    <tr style="text-align:center">
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Contraseña</th>
+                        <th>Empresa</th>
+                        <th>Estado</th>
+                        <th>Fecha de creacion</th>
+                        <th>Fecha de actualizacion</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contact in contacts%}
+                    <tr>
+                        <td>{{contact.Uid}}</td>
+                        <td>{{contact.Unombre  }} {{contact.Uapellido  }}</td>
+                        <td>{{contact.Ucorreo}}</td>
+                        <td>{{contact.Upassword}}</td>
+                        <td>
+                            {% if contact.Eid == 1 %}
+                            Davy Collegee
+                            {% else %}
+                            {{contact.Eid}}
+                            {% endif %}
+                        </td>
+                        <td>{{contact.Uestado}}</td>
+                        <td>{{contact.Ufecha_creacion}}</td>
+                        <td>
+                            {% if contact.Ufecha_modificacion == None %}
+                            {% else %}
+                            {{contact.Ufecha_modificacion}}
+                            {% endif %}
+                        </td>
+                        <td><a href="/Editar_Usuario/{{contact.Uid}}" class="btn btn-warning"><i
+                                class="far fa-edit fa-fw"></i> Editar</a></td>
+                        <td><a href="/Accesos_Usuario/{{contact.Uid}}" class="btn btn-info"><i
+                                class="fas fa-fingerprint fa-fw"></i> Accesos</a></td>
+<!--                        <td><a href="/Eliminar_usuario/{{contact.Uid}}" class="btn btn-danger btn-delete">Eliminar <i-->
+<!--                                class="fas fa-user-times fa-fw"></i></a></td>-->
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

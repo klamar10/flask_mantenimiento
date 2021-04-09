@@ -1,0 +1,78 @@
+{% extends 'Layouts/layout.html' %}
+{% block body%}
+<h1 style="text-align: center">
+    {{usuario.Unombre}}  {{usuario.Uapellido}}
+</h1>
+<hr>
+<br>
+<div class="row">
+
+    <div class="col-md-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-dismissible alert-{{category}}">
+            <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+            <strong>Advertencia!</strong> {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="card border-primary mb-3">
+            <div class="card-header">Tarjeta de registro</div>
+            <div class="card-body">
+                <form method="post" action="/Asignar_Acceso/{{usuario.Uid}}" autocomplete="off">
+                    <div class="form-group mb-3">
+                        <select class="custom-select" name="area" id="area" required>
+                            <option disabled selected value>Seleccionar área</option>
+                            {% for a in areas %}
+                            <option value="{{ a.Aid}}">{{a.Adescripcion}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <select class="custom-select" name="rol" id="rol" required>
+                            <option disabled selected value>Seleccionar rol</option>
+                            {% for r in roles %}
+                            <option value="{{ r.Rid}}">{{r.Rdescripcion}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-primary btn-block"><i
+                                class="fas fa-key fa-fw"></i> Añadir</button>
+                        <a href="/Usuarios" class="btn btn-outline-secondary btn-block"><i class="far fa-arrow-alt-circle-left fa-fw"></i> Atras</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card card-body">
+            <div class="table-responsive" style=" height:400px">
+                <h3 style="text-align: center">Listado de Accesos</h3>
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>Rol</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ac in accesos%}
+                    <tr>
+                        <td>{{ac.Adescripcion}}</td>
+                        <td>{{ac.Rdescripcion}}</td>
+                        <td><a href="/Eliminar_Acceso/{{ac.Uid}}/{{ac.Aid}}/{{ac.Rid}}" class="btn btn-danger btn-delete"><i
+                                class="fas fa-user-times fa-fw"></i> Eliminar</a></td>
+                    </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}
