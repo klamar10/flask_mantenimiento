@@ -90,47 +90,6 @@ def Login():
             db.session.remove()
             flash('Credenciales erroneas', 'danger')
             return redirect(url_for('SW5pdA'))
-    # if request.method == 'POST':
-    #     area = request.form['area']
-    #     email = request.form['correo']
-    #     password = request.form['password']
-    #     cur = mysql.connection.cursor()
-    #     cur.execute("""SELECT  B.Upassword, B.Unombre, B.Uapellido, D.Rdescripcion, C.Adescripcion, B.uid FROM uar_accesos A
-    #     INNER JOIN usuarios B on A.Uid = B.Uid
-    #     INNER JOIN area C on A.Aid = C.Aid
-    #     INNER JOIN roles D on A.Rid = D.Rid
-    #     WHERE B.Uestado = 1 and C.Aestado = 1 and D.Restado =1 and B.Ucorreo = %s and C.Aid = %s """,
-    #                 (email, area))
-    #     usuario = cur.fetchone()
-    #     cur.close()
-    #     if usuario is not None:
-    #         if password == usuario[0]:
-    #             session.permanent = True
-    #             session['name'] = str(usuario[1] + ' ' + usuario[2])
-    #             session['rol'] = usuario[3]
-    #             session['id'] = usuario[5]
-    #             session['area'] = usuario[4]
-    #
-    #             flash('Bienvenid@ a la plataforma en línea de administracion de trabajo. Ingresó al area de ' + session[
-    #                 'area'], 'secondary')
-    #
-    #             now = datetime.now()
-    #             fecha = now.strftime('%Y-%m-%d %H:%M:%S')
-    #
-    #             # msg = Message('Inicio de sesión',
-    #             #               sender=app.config['MAIL_USERNAME'],
-    #             #               recipients=[usuario[3]])
-    #             # msg.html = render_template('Login/email.html', nombre=str(usuario[1] + ' ' + usuario[2]), correo=usuario[3], fecha=fecha)
-    #             # mail.send(msg)
-    #
-    #             return redirect(url_for('SW5pdA'))
-    #             # render_template("Layouts/Inicio.html")
-    #         else:
-    #             flash('Error de credenciales', 'danger')
-    #             return redirect(url_for('SW5pdA'))
-    #     else:
-    #         flash('Usuario no autorizado', 'warning')
-    #         return redirect(url_for('SW5pdA'))
 
 
 def Logout():
