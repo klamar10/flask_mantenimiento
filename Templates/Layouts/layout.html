@@ -58,11 +58,11 @@
                     <i class="fas fa-hand-sparkles fa-fw"></i> Mantenimiento
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <li><a class="dropdown-item" href="/Mantenimiento/Asignaciones"><i class="fas fa-mobile-alt fa-fw"></i> Asignaciones</a></li>
+<!--                    <li><a class="dropdown-item" href="/Mantenimiento/Asignaciones/1"><i class="fas fa-mobile-alt fa-fw"></i> Asignaciones</a></li>-->
                     {% if session['rol'] == 'Administrador'%}
-                    <li>
+
                         <hr class="dropdown-divider"><a><i class="fas fa-laptop-house fa-fw"></i> Administracion</a>
-                    </li>
+
                     <li><a class="dropdown-item" href="/Mantenimiento/Areas"><i class="fas fa-chart-area fa-fw"></i> Areas</a></li>
                     <li><a class="dropdown-item" href="/Mantenimiento/Ambientes"><i class="fas fa-map-marked-alt fa-fw"></i> Ambientes </a></li>
                     <li><a class="dropdown-item" href="/Mantenimiento/Asignados_Trabajo"><i class="fas fa-chalkboard-teacher fa-fw"></i> Asignacion de trabajo</a></li>
@@ -70,23 +70,25 @@
                         <hr class="dropdown-divider"><a><i class="fas fa-archive fa-fw"></i> Reportes</a>
                     </li>
                     <li><a class="dropdown-item" href="/Mantenimiento/Reportes/Reporte_Trabajador"><i class="fas fa-user-check fa-fw"></i> Reporte de Trabajadores</a></li>
+                    <li><a class="dropdown-item" href="/Mantenimiento/Reportes/Reporte_Ambientes"><i class="fas fa-book fa-fw"></i>  Reporte de Areas</a></li>
+                    <li><a class="dropdown-item" href="/Mantenimiento/Reportes/Reporte_Indicadores"><i class="fas fa-chart-line fa-fw"></i>  Reporte de indicadores</a></li>
                     {% endif %}
                 </ul>
             </li>
             {% endif %}
 
-            {% if session['rol'] == 'Administrador'%}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                    <i class="fas fa-archive fa-fw"></i> Reportes
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                    <li><a class="dropdown-item" href="#">Reporte de seguridad</a></li>
-                    <li><a class="dropdown-item" href="#">Reporte de mantenimiento</a></li>
-                </ul>
-            </li>
-            {% endif %}
+<!--            {% if session['rol'] == 'Administrador'%}-->
+<!--            <li class="nav-item dropdown">-->
+<!--                <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"-->
+<!--                   aria-expanded="false">-->
+<!--                    <i class="fas fa-archive fa-fw"></i> Reportes-->
+<!--                </a>-->
+<!--                <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">-->
+<!--                    <li><a class="dropdown-item" href="#">Reporte de seguridad</a></li>-->
+<!--                    <li><a class="dropdown-item" href="#">Reporte de mantenimiento</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+<!--            {% endif %}-->
         </ul>
         <a href="/Logout" class="btn btn-danger"><i class="fas fa-door-open fa-fw"></i> Cerrar sesión</a>
     </div>

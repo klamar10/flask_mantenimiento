@@ -1,0 +1,16 @@
+mysqlclient==2.1.1
+flask_mysqldb
+click==8.0
+Flask==2.2.2
+gunicorn==20.1.0
+itsdangerous==2.0
+Jinja2==3.0
+MarkupSafe>=2.1.1
+Werkzeug==2.2.2
+SQLAlchemy
+flask-marshmallow
+Flask-Mail
+Flask-SQLAlchemy==3.0.2
+PyMySQL==1.0.2
+xlwt
+pyodbc

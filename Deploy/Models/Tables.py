@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/SAPPJIMENEZ'
-
+from app import app
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/SAPPJIMENEZ'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://b89f67d0a6b885:0730de02@us-cdbr-east-03.cleardb.com/heroku_d16f233add31518'
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 60
+app.config['SQLALCHEMY_POOL_TIMEOUT'] = 864000
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -435,10 +435,10 @@ class MT_funcion_resp_Schema(ma.Schema):
 MT_funcion_resp_sc = MT_funcion_resp_Schema()
 MT_funcion_resp_scs = MT_funcion_resp_Schema(many=True)
 
-try:
-    db.create_all()
-except Exception as e:
-    print(e)
+# try:
+#     db.create_all()
+# except Exception as e:
+#     print(e)
 
 # @app.route('/', methods=['GET'])
 # def get():

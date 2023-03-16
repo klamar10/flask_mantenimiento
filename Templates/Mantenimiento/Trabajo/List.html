@@ -18,7 +18,7 @@
             <select class="custom-select" name="area" id="area" required>
                 <option disabled selected value>Seleccionar área</option>
                 {% for datos in select%}
-                <option value="{{ datos.MT_Aid}}">{{datos.MT_Anombre}}</option>
+                <option value="{{ datos.0}}">{{datos.1}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -35,17 +35,19 @@
         <thead class="">
         <tr>
             <th>Ambiente</th>
-            <th>Veces atentido</th>
+            <th>Etiqueta de trabajo</th>
+            <th>Cantidad de veces trabajado</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         {% for datos in ambientes%}
         <tr>
-            <td scope="row">{{datos.MT_ABnombre}}</td>
-            <td>{{datos.MT_ASFcontador}}</td>
+            <td scope="row">{{datos.1}}</td>
+            <td scope="row">{{datos.2}}</td>
+            <td scope="row">{{datos.3}}</td>
             <td>
-                <a href="/Mantenimiento/Asignaciones/Respuesta/{{datos.MT_ASFid}}"
+                <a href="/Mantenimiento/Asignaciones/Respuesta/{{datos.0}}"
                    class="btn btn-outline-warning"><i class="fas fa-mobile-alt fa-fw"></i> Atender</a>
             </td>
         </tr>

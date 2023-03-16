@@ -1,6 +1,4 @@
 from app import app
-from Configuracion.db import mysql
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask import flash, render_template, request, redirect, flash, session, url_for
 from datetime import datetime
 # MODELOS
@@ -78,18 +76,6 @@ def update(id):
         except Exception as e:
             flash('Error al actualizar usuario: ' + usuario.Unombre + ' ' + usuario.Uapellido + ' ' + str(e), 'danger')
             return redirect(url_for('VXN1YXJpb3M'))
-
-def delete(id):
-    cur = mysql.connection.cursor()
-    cur.execute('delete from usuarios where Uid = {0}'.format(id, ))
-    # cur2 = mysql.connection.cursor()
-    # cur2.execute('ALTER TABLE usuarios AUTO_INCREMENT = {0}'.format(id, ))
-
-    mysql.connection.commit()
-    flash('Usuario Eliminado', 'success')
-    db.session.remove()
-    return redirect(url_for('VXN1YXJpb3M'))
-
 
 def accesos(id):
     #  accesos

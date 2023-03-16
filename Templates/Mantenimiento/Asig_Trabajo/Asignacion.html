@@ -30,18 +30,20 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead class="">
                         <tr>
-                            <th>ID</th>
+                            <th>N°</th>
                             <th>Ambiente</th>
-                            <th>Fecha</th>
+                            <th>Etiqueta</th>
+                            <th>Rango asignado</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for contact in asignados%}
                         <tr>
-                            <td scope="row">{{contact.MT_Abcodigo}}</td>
+                            <td scope="row">{{contact.MT_ASFid}}</td>
                             <td>{{contact.MT_ABnombre}}</td>
-                            <td>{{contact.MT_ABfech_crea}}</td>
+                            <td>{{contact.MT_Enombre}}</td>
+                            <td>{{contact.MT_ASFfech_asigdesde}} - {{contact.MT_ASFfech_asighasta}}</td>
                             <td>
                                 <a href="/Mantenimiento/Asignados_Trabajo/Eliminar/{{id}}/{{contact.MT_ASFid}}"
                                    class="btn btn-outline-danger"><i
@@ -69,7 +71,8 @@
                             </select>
                         </div>
                         <div class="d-grid col-md-3">
-                            <button type="submit" class="btn btn-outline-info btn-block"><i class="fas fa-search fa-fw"></i> Buscar
+                            <button type="submit" class="btn btn-outline-info btn-block"><i
+                                    class="fas fa-search fa-fw"></i> Buscar
                             </button>
                         </div>
                     </div>
@@ -78,20 +81,33 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead class="">
                         <tr>
-                            <th>ID</th>
                             <th>Ambiente</th>
-                            <th></th>
+                            <th>Etiqueta</th>
+                            <th>Inicio Asignacion</th>
+                            <th>Fin Asignacion</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for contact in pendientes%}
                         <tr>
-                            <td scope="row">{{contact.MT_Abcodigo}}</td>
-                            <td>{{contact.MT_ABnombre}}</td>
-                            <td>
-                                <a href="/Mantenimiento/Asignados_Trabajo/Asignar/{{id}}/{{contact.MT_AEFid}}"
-                                   class="btn btn-outline-success "><i
-                                        class="fas fa-plus fa-fw"></i> Agregar</a></td>
+                            <form method="post"
+                                  action="/Mantenimiento/Asignados_Trabajo/Asignar/{{id}}/{{contact.MT_AEFid}}"
+                                  autocomplete="off">
+
+                                <td scope="row">{{contact.MT_ABnombre}}</td>
+                                <td>{{contact.MT_Enombre}}</td>
+                                <td><input type="date" name="desde" id="desde" required
+                                           class="form-control"></td>
+                                <td><input type="date" name="hasta" id="hasta" required
+                                           class="form-control"></td>
+
+                                <td>
+                                    <button type="submit"
+                                            class="btn btn-outline-success "><i
+                                            class="fas fa-plus fa-fw"></i> Agregar
+                                    </button>
+                                </td>
+                            </form>
                             <!--                                class="fas fa-user-times fa-fw"></i></a></td>-->
                         </tr>
                         {% endfor%}

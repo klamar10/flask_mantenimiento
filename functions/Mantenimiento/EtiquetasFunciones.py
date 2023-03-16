@@ -11,16 +11,21 @@ consulta = bool
 
 # PAGINAS
 def List_EtiquetasFunciones():
-    return render_template('Mantenimiento/EtiquetasFunciones/List.html')
-
+    try:
+        return render_template('Mantenimiento/EtiquetasFunciones/List.html')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error al mostrar página. ' + str(e), 'danger')
+        return redirect(url_for('SW5pdA'))
 
 def List_Etiquetas():
     try:
         # AREAS
-        data1 = MT_etiquetas.query.all()
+        data1 = MT_etiquetas.query.filter_by().order_by(MT_etiquetas.MT_Enombre.asc())
         db.session.remove()
         return render_template('Mantenimiento/EtiquetasFunciones/Etiquetas.html', etiquetas=data1)
     except Exception as e:
+        db.session.rollback()
         flash('Error al mostrar página. ' + str(e), 'danger')
         return redirect(url_for('SW5pdA'))
 
@@ -28,7 +33,7 @@ def List_Etiquetas():
 def List_Funciones():
     try:
         # AREAS
-        data1 = MT_funciones.query.all()
+        data1 = MT_funciones.query.filter_by().order_by(MT_funciones.MT_Fnombre.asc())
         db.session.remove()
         return render_template('Mantenimiento/EtiquetasFunciones/Funciones.html', funciones=data1)
     except Exception as e:
@@ -142,10 +147,10 @@ def Get_FuncionesxEtiqueta(id):
         .join(MT_funciones, MT_funciones.MT_Fid == MT_eti_fn.MT_Fid) \
         .add_columns(MT_funciones.MT_Fid, MT_eti_fn.MT_EFid, MT_funciones.MT_Fnombre, MT_eti_fn.MT_EFfech_crea, MT_eti_fn.MT_EFestado) \
         .filter(MT_etiquetas.MT_Eid == id, MT_funciones.MT_Festado ==1, MT_eti_fn.MT_EFestado == 1)\
-        .order_by(MT_funciones.MT_Fnombre.asc(), MT_eti_fn.MT_EFestado.asc()).all()
+        .order_by(MT_funciones.MT_Fnombre.asc()).all()
     dato3 = MT_funciones.query.filter(MT_funciones.MT_Festado == 1,
                                       ~MT_eti_fn.query.filter(MT_eti_fn.MT_Fid == MT_funciones.MT_Fid,
-                                                              MT_eti_fn.MT_Eid == id, MT_eti_fn.MT_EFestado == 1).exists()).all()
+                                                              MT_eti_fn.MT_Eid == id, MT_eti_fn.MT_EFestado == 1).exists()).order_by(MT_funciones.MT_Fnombre.asc()).all()
     return render_template('Mantenimiento/EtiquetasFunciones/AsigEF_busqueda.html', asignados=dato2, funciones=dato3,
                            id=id)
 

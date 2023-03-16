@@ -1,4 +1,3 @@
-from Configuracion.db import mysql
 from Models.Tables import Empresas, empre_scs
 from Models.Tables import Configuraciones
 from flask import flash, render_template, request, redirect, flash, session, url_for
@@ -6,11 +5,15 @@ from Models.Tables import db
 
 def List_Empresas():
     #  configuraciones
-    all = Empresas.query.all()
-    data1 = empre_scs.dump(all)
-    db.session.remove()
-    return render_template('Empresas/List.html', empresas=data1)
-
+    try:
+        all = Empresas.query.all()
+        data1 = empre_scs.dump(all)
+        db.session.remove()
+        return render_template('Empresas/List.html', empresas=data1)
+    except Exception as e:
+        print(e)
+        flash('Error al mostrar, error: ' + str(e), 'danger')
+        return redirect(url_for('TGlzdF9FbXByZXNhcw'))
 def create_Empresas():
     if request.method == 'POST':
         try:

@@ -35,6 +35,7 @@
         <thead class="">
         <tr>
             <th>Ambiente</th>
+            <th>Etiqueta de trabajo</th>
             <th>Veces atentido</th>
             <th></th>
         </tr>
@@ -43,6 +44,7 @@
         {% for datos in ambientes%}
         <tr>
             <td scope="row">{{datos.MT_ABnombre}}</td>
+            <td scope="row">{{datos.MT_Enombre}}</td>
             <td>{{datos.MT_ASFcontador}}</td>
             <td>
                 <a href="/Mantenimiento/Asignaciones/Respuesta/{{datos.MT_ASFid}}"

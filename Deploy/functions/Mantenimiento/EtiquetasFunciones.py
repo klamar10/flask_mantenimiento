@@ -11,8 +11,12 @@ consulta = bool
 
 # PAGINAS
 def List_EtiquetasFunciones():
-    return render_template('Mantenimiento/EtiquetasFunciones/List.html')
-
+    try:
+        return render_template('Mantenimiento/EtiquetasFunciones/List.html')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error al mostrar página. ' + str(e), 'danger')
+        return redirect(url_for('SW5pdA'))
 
 def List_Etiquetas():
     try:
@@ -21,6 +25,7 @@ def List_Etiquetas():
         db.session.remove()
         return render_template('Mantenimiento/EtiquetasFunciones/Etiquetas.html', etiquetas=data1)
     except Exception as e:
+        db.session.rollback()
         flash('Error al mostrar página. ' + str(e), 'danger')
         return redirect(url_for('SW5pdA'))
 

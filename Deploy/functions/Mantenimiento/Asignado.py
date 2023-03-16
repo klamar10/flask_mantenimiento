@@ -2,27 +2,23 @@ from flask import jsonify, render_template, request, redirect, flash, session, u
 from datetime import datetime
 # MODELOS
 from Models.Tables import MT_asig_funciones, MT_areas, MT_ambientes, MT_asig_et_fn, MT_eti_fn, MT_funciones, \
-    MT_funcion_resp
+    MT_funcion_resp, MT_etiquetas
 from Models.Tables import db
 
 
 def List_Asignaciones():
     trabajador = session['Uid']
-    select = MT_asig_et_fn.query.join(MT_asig_funciones, MT_asig_funciones.MT_AEFid == MT_asig_et_fn.MT_AEFid).join(
+    select = MT_areas.query.filter(MT_areas.MT_Aestado ==1, MT_asig_et_fn.query.join(MT_asig_funciones, MT_asig_funciones.MT_AEFid == MT_asig_et_fn.MT_AEFid).join(
         MT_ambientes, MT_ambientes.MT_Abcodigo == MT_asig_et_fn.MT_Abcodigo).join(MT_areas,
-                                                                                  MT_areas.MT_Aid == MT_ambientes.MT_Aid) \
-        .add_columns(MT_areas.MT_Anombre, MT_areas.MT_Aid).filter(MT_areas.MT_Aestado == 1,
-                                                                  MT_ambientes.MT_ABestado == 1,
-                                                                  MT_asig_funciones.MT_ASFestado == 1,
-                                                                  MT_asig_funciones.Uid == trabajador) \
-        .order_by(MT_areas.MT_Anombre.asc()).all()
+                                                                                  MT_areas.MT_Aid == MT_ambientes.MT_Aid).exists()).order_by(MT_areas.MT_Anombre.asc()).all()
 
     if request.method == 'POST':
         area = request.form['area']
         data = MT_asig_et_fn.query.join(MT_asig_funciones, MT_asig_funciones.MT_AEFid == MT_asig_et_fn.MT_AEFid).join(
             MT_ambientes, MT_ambientes.MT_Abcodigo == MT_asig_et_fn.MT_Abcodigo).join(MT_areas,
-                                                                                      MT_areas.MT_Aid == MT_ambientes.MT_Aid) \
-            .add_columns(MT_asig_funciones.MT_ASFid, MT_ambientes.MT_ABnombre, MT_asig_funciones.MT_ASFcontador).filter(MT_areas.MT_Aestado == 1,
+                                                                                      MT_areas.MT_Aid == MT_ambientes.MT_Aid).join(MT_etiquetas, MT_etiquetas.MT_Eid == MT_asig_et_fn.MT_Eid) \
+            .add_columns(MT_asig_funciones.MT_ASFid, MT_ambientes.MT_ABnombre, MT_asig_funciones.MT_ASFcontador, MT_etiquetas.MT_Enombre)\
+            .filter(MT_areas.MT_Aestado == 1,
                                                                       MT_ambientes.MT_ABestado == 1,
                                                                       MT_asig_funciones.MT_ASFestado == 1,
                                                                       MT_asig_funciones.Uid == trabajador,

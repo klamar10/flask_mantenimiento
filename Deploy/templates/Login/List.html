@@ -19,9 +19,8 @@
                 <div class="form-group mb-3">
                         <select class="custom-select" name="area" id="area" required>
                             <option disabled selected value>Seleccionar área</option>
-                            {% for a in area %}
-                            <option value="{{ a.Aid}}">{{a.Adescripcion}}</option>
-                            {% endfor %}
+                            <option value="1">Mantenimiento</option>
+                            <option value="2">Seguridad</option>
                         </select>
                     </div>
                 <div class="form-group">

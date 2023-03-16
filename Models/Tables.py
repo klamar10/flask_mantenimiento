@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/SAPPJIMENEZ'
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+from app import app
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://adrian:1234@localhost:3306/adminbd_college'
+# app.config["SQLALCHEMY_DATABASE_URI"] = "mssql+pyodbc://usuario1:123@127.0.0.1/farmaco_bd?driver=SQL+Server"
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://b4ba93774ba5cd:8d85ef45@us-cdbr-east-03.cleardb.com/heroku_a2320043afa4b7d'
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 60
+app.config['SQLALCHEMY_POOL_TIMEOUT'] = 864000
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
@@ -266,7 +267,7 @@ MT_areas_scs = MT_areas_Schema(many=True)
 # ##################################################
 class MT_ambientes(db.Model):
     MT_Abcodigo = db.Column(db.Integer, primary_key=True)
-    MT_Aid = db.Column(db.Integer, db.ForeignKey('MT_areas.MT_Aid'))
+    MT_Aid = db.Column(db.Integer, db.ForeignKey('mt_areas.MT_Aid'), nullable=False)
     MT_ABnombre = db.Column(db.String(200), nullable=False)
     MT_ABestado = db.Column(db.Integer, nullable=False)
     MT_ABfech_crea = db.Column(db.DateTime, nullable=False)
@@ -286,7 +287,7 @@ class MT_ambientes(db.Model):
         consulta = MT_ambientes.query.join(MT_areas, MT_ambientes.MT_Aid == MT_areas.MT_Aid) \
             .add_columns(MT_ambientes.MT_Abcodigo, MT_areas.MT_Anombre, MT_ambientes.MT_ABnombre,
                          MT_ambientes.MT_ABestado, MT_ambientes.MT_ABfech_crea, MT_ambientes.MT_ABfech_mod)\
-            .filter(MT_areas.MT_Aestado == 1)
+            .filter(MT_areas.MT_Aestado == 1).order_by(MT_ambientes.MT_ABnombre.asc())
         return consulta
 
 class MT_ambientes_Schema(ma.Schema):
@@ -343,8 +344,8 @@ MT_funciones_scs = MT_funciones_Schema(many=True)
 # ##################################################
 class MT_eti_fn(db.Model):
     MT_EFid = db.Column(db.Integer, primary_key=True)
-    MT_Eid = db.Column(db.Integer, db.ForeignKey('MT_etiquetas.MT_Eid'))
-    MT_Fid = db.Column(db.Integer, db.ForeignKey('MT_funciones.MT_Fid'))
+    MT_Eid = db.Column(db.Integer, db.ForeignKey('mt_etiquetas.MT_Eid'))
+    MT_Fid = db.Column(db.Integer, db.ForeignKey('mt_funciones.MT_Fid'))
     MT_EFestado = db.Column(db.Integer, nullable=False)
     MT_EFfech_crea = db.Column(db.DateTime, nullable=False)
     MT_EFfech_mod = db.Column(db.DateTime)
@@ -367,8 +368,8 @@ MT_eti_fn_scs = MT_eti_fn_Schema(many=True)
 # ##################################################
 class MT_asig_et_fn(db.Model):
     MT_AEFid = db.Column(db.Integer, primary_key=True)
-    MT_Abcodigo = db.Column(db.Integer, db.ForeignKey('MT_ambientes.MT_Abcodigo'))
-    MT_Eid = db.Column(db.Integer, db.ForeignKey('MT_etiquetas.MT_Eid'))
+    MT_Abcodigo = db.Column(db.Integer, db.ForeignKey('mt_ambientes.MT_Abcodigo'))
+    MT_Eid = db.Column(db.Integer, db.ForeignKey('mt_etiquetas.MT_Eid'))
     MT_AEFestado = db.Column(db.Integer, nullable=False)
     MT_AEFfech_crea = db.Column(db.DateTime, nullable=False)
     MT_AEFfech_mod = db.Column(db.DateTime)
@@ -392,24 +393,26 @@ MT_asig_et_fn_scs = MT_asig_et_fn_Schema(many=True)
 class MT_asig_funciones(db.Model):
     MT_ASFid = db.Column(db.Integer, primary_key=True)
     Uid = db.Column(db.Integer, nullable=False)
-    MT_AEFid = db.Column(db.Integer, db.ForeignKey('MT_asig_et_fn.MT_AEFid'))
+    MT_AEFid = db.Column(db.Integer, db.ForeignKey('mt_asig_et_fn.MT_AEFid'))
     MT_ASFestado = db.Column(db.Integer, nullable=False)
     MT_ASFfech_crea = db.Column(db.DateTime, nullable=False)
-    MT_ASFfech_mod = db.Column(db.DateTime)
+    MT_ASFfech_asigdesde = db.Column(db.Date)
+    MT_ASFfech_asighasta = db.Column(db.Date)
     MT_ASFcontador = db.Column(db.Integer, nullable=False)
     MT_funcion_resp = db.relationship('MT_funcion_resp', backref='MT_asig_funciones', lazy=True)
 
-    def __init__(self, Uid, MT_AEFid, MT_ASFestado, MT_ASFfech_crea, MT_ASFfech_mod, MT_ASFcontador):
+    def __init__(self, Uid, MT_AEFid, MT_ASFestado, MT_ASFfech_crea, MT_ASFfech_asigdesde, MT_ASFfech_asighasta, MT_ASFcontador):
         self.Uid = Uid
         self.MT_AEFid = MT_AEFid
         self.MT_ASFestado = MT_ASFestado
         self.MT_ASFfech_crea = MT_ASFfech_crea
-        self.MT_ASFfech_mod = MT_ASFfech_mod
+        self.MT_ASFfech_asigdesde = MT_ASFfech_asigdesde
+        self.MT_ASFfech_asighasta = MT_ASFfech_asighasta
         self.MT_ASFcontador = MT_ASFcontador
 
 class MT_asig_funciones_Schema(ma.Schema):
     class Meta:
-        fields = ('Uid', 'MT_AEFid', 'MT_ASFestado', 'MT_ASFfech_crea', 'MT_ASFfech_mod', 'MT_ASFcontador')
+        fields = ('Uid', 'MT_AEFid', 'MT_ASFestado', 'MT_ASFfech_crea', 'MT_ASFfech_asigdesde','MT_ASFfech_asighasta', 'MT_ASFcontador')
 
 MT_asig_funciones_sc = MT_asig_funciones_Schema()
 MT_asig_funciones_scs = MT_asig_funciones_Schema(many=True)
@@ -417,7 +420,7 @@ MT_asig_funciones_scs = MT_asig_funciones_Schema(many=True)
 # ##################################################
 class MT_funcion_resp(db.Model):
     MT_FRid = db.Column(db.Integer, primary_key=True)
-    MT_ASFid = db.Column(db.Integer, db.ForeignKey('MT_asig_funciones.MT_ASFid'))
+    MT_ASFid = db.Column(db.Integer, db.ForeignKey('mt_asig_funciones.MT_ASFid'))
     MT_FRRespuesta= db.Column(db.String(10), nullable=False)
     MT_FRcomentario = db.Column(db.String(150), nullable=False)
     MT_ASFfech_crea = db.Column(db.DateTime, nullable=False)
@@ -435,10 +438,10 @@ class MT_funcion_resp_Schema(ma.Schema):
 MT_funcion_resp_sc = MT_funcion_resp_Schema()
 MT_funcion_resp_scs = MT_funcion_resp_Schema(many=True)
 
-try:
-    db.create_all()
-except Exception as e:
-    print(e)
+# try:
+#     db.create_all()
+# except Exception as e:
+#     print(e)
 
 # @app.route('/', methods=['GET'])
 # def get():

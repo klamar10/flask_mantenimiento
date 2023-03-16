@@ -18,49 +18,70 @@ def check_token(f):
 
     return decorated
 
+# valida ADMINISTRADOR
+def check_admin(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if session['rolid'] != 1:
+            flash('No tienes permiso para ingresar', 'warning')
+            return redirect(url_for('SW5pdA'))
+        else:
+            pass
+        return f(*args, **kwargs)
+
+    return decorated
 # valida usuario habilitado
 def check_habilitado(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if session.permanent:
-            Estado = Usuarios.get_Estado(session['Uid'])
-            if Estado is None:
-                session.clear()
-                data1 = Areas.get_area_a(self=1)
+        try:
+            if session.permanent:
+                Estado = Usuarios.get_Estado(session['Uid'])
                 db.session.remove()
-                return render_template('Login/List.html', area=data1)
+                if Estado is None:
+                    db.session.remove()
+                    return render_template('Login/List.html')
+                else:
+                    db.session.remove()
+                    pass
+                    return f(*args, **kwargs)
             else:
-                pass
-                return f(*args, **kwargs)
-        else:
-            data1 = Areas.get_area_a(self=1)
-            return render_template('Login/List.html', area=data1)
+                return render_template('Login/List.html')
+        except Exception as e:
+            flash(str(e), 'danger')
+            db.session.remove()
+            return render_template('Login/List.html')
     return decorated
 
 def Init():
-    if session.permanent is True:
-        try:
-            Estado = Usuarios.get_Estado(session['Uid'])
-            if Estado is None:
-                session.clear()
-                data1 = Areas.get_area_a(self=1)
+    try:
+        if session.permanent is True:
+            try:
+                Estado = Usuarios.get_Estado(session['Uid'])
                 db.session.remove()
-                return render_template('Login/List.html', area=data1)
-            else:
-                return render_template('Layouts/Inicio.html')
-        except:
-            db.session.remove()
-            session.clear()
-            data1 = Areas.get_area_a(self=1)
-            db.session.remove()
-            return render_template('Login/List.html', area=data1)
-    else:
-        #  USUARIOS
-        # data1 = Areas.query.filter(Areas.Restado.in_([1]))
-        data1 = Areas.get_area_a(self=1)
-        db.session.remove()
-        return render_template('Login/List.html', area=data1)
+                if Estado is None:
+                    db.session.remove()
+                    session.clear()
+                    return render_template('Login/List.html')
+                else:
+                    db.session.remove()
+                    return render_template('Layouts/Inicio.html')
+            except Exception as e:
+                flash(str(e), 'danger')
+                db.session.remove()
 
+                return render_template('Login/List.html')
+        else:
+            #  USUARIOS
+            # data1 = Areas.query.filter(Areas.Restado.in_([1]))
+            session.clear()
+            db.session.remove()
+            return render_template('Login/List.html')
+    except Exception as e:
+        flash(str(e), 'danger')
+        session.clear()
+        db.session.remove()
+        return render_template('Login/List.html')
 
 def Login():
     if request.method == 'POST':
@@ -93,5 +114,6 @@ def Login():
 
 
 def Logout():
+    db.session.remove()
     session.clear()
     return redirect(url_for('SW5pdA'))

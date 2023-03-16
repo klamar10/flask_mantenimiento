@@ -30,8 +30,9 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead class="">
                         <tr>
-                            <th>ID</th>
+                            <th>N°</th>
                             <th>Ambiente</th>
+                            <th>Etiqueta</th>
                             <th>Fecha</th>
                             <th></th>
                         </tr>
@@ -39,8 +40,9 @@
                         <tbody>
                         {% for contact in asignados%}
                         <tr>
-                            <td scope="row">{{contact.MT_Abcodigo}}</td>
+                            <td scope="row">{{contact.MT_ASFid}}</td>
                             <td>{{contact.MT_ABnombre}}</td>
+                            <td>{{contact.MT_Enombre}}</td>
                             <td>{{contact.MT_ABfech_crea}}</td>
                             <td>
                                 <a href="/Mantenimiento/Asignados_Trabajo/Eliminar/{{id}}/{{contact.MT_ASFid}}"
@@ -78,16 +80,16 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead class="">
                         <tr>
-                            <th>ID</th>
                             <th>Ambiente</th>
+                            <th>Etiqueta</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for contact in pendientes%}
                         <tr>
-                            <td scope="row">{{contact.MT_Abcodigo}}</td>
-                            <td>{{contact.MT_ABnombre}}</td>
+                            <td scope="row">{{contact.MT_ABnombre}}</td>
+                            <td>{{contact.MT_Enombre}}</td>
                             <td>
                                 <a href="/Mantenimiento/Asignados_Trabajo/Asignar/{{id}}/{{contact.MT_AEFid}}"
                                    class="btn btn-outline-success "><i
