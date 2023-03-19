@@ -31,6 +31,9 @@ def Get_asignado_trabajo(id):
     if request.method == 'POST':
        try:
            area = request.form['area']
+           print(area)
+
+
            pendientes = MT_ambientes.query.join(MT_asig_et_fn, MT_asig_et_fn.MT_Abcodigo == MT_ambientes.MT_Abcodigo)\
                .join(MT_etiquetas, MT_etiquetas.MT_Eid == MT_asig_et_fn.MT_Eid)\
                .filter(MT_ambientes.MT_ABestado == 1, MT_ambientes.MT_Aid==area,MT_asig_et_fn.MT_AEFestado==1,
@@ -39,6 +42,10 @@ def Get_asignado_trabajo(id):
                                                       MT_asig_funciones.MT_ASFestado == 1,
                                                       MT_asig_funciones.Uid == id).exists()) \
                .add_columns(MT_etiquetas.MT_Enombre, MT_ambientes.MT_ABnombre, MT_asig_et_fn.MT_AEFid).order_by(MT_ambientes.MT_ABnombre.asc()).all()
+
+           # pendientes = MT_ambientes.query.join(MT_asig_et_fn, MT_asig_et_fn.MT_Abcodigo == MT_ambientes.MT_Abcodigo)\
+           #     .filter(MT_ambientes.MT_Aid==area)
+           print(pendientes)
            db.session.remove()
            return render_template('Mantenimiento/Asig_Trabajo/Asignacion.html', asignados=data2, id=id,
                                   areas=data1,  pendientes=pendientes)
@@ -48,11 +55,11 @@ def Get_asignado_trabajo(id):
     db.session.remove()
     return render_template('Mantenimiento/Asig_Trabajo/Asignacion.html',  asignados=data2, id=id, areas=data1)
 
-def Create_asignado_trabajo(id, aid):
+def Create_asignado_trabajo(id, aefid):
     now = datetime.now()
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     try:
-        b = MT_asig_funciones.query.filter_by(Uid =id, MT_AEFid =aid, MT_ASFfech_asigdesde=request.form['desde'], MT_ASFfech_asighasta=request.form['hasta']).first()
+        b = MT_asig_funciones.query.filter_by(Uid =id, MT_AEFid =aefid, MT_ASFfech_asigdesde=request.form['desde'], MT_ASFfech_asighasta=request.form['hasta']).first()
         if b is not None:
             b.MT_ASFestado = 1
             b.MT_ASFfech_crea = str(fecha)
@@ -60,7 +67,7 @@ def Create_asignado_trabajo(id, aid):
             b.MT_ASFfech_asighasta = request.form['hasta']
         else:
             usuario = id
-            ambiente = int(aid)
+            ambiente = int(aefid)
             estado = 1
             fecha_crea = str(fecha)
             desde = request.form['desde']

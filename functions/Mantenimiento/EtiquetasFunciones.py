@@ -148,15 +148,17 @@ def Get_FuncionesxEtiqueta(id):
         .add_columns(MT_funciones.MT_Fid, MT_eti_fn.MT_EFid, MT_funciones.MT_Fnombre, MT_eti_fn.MT_EFfech_crea, MT_eti_fn.MT_EFestado) \
         .filter(MT_etiquetas.MT_Eid == id, MT_funciones.MT_Festado ==1, MT_eti_fn.MT_EFestado == 1)\
         .order_by(MT_funciones.MT_Fnombre.asc()).all()
+
     dato3 = MT_funciones.query.filter(MT_funciones.MT_Festado == 1,
                                       ~MT_eti_fn.query.filter(MT_eti_fn.MT_Fid == MT_funciones.MT_Fid,
                                                               MT_eti_fn.MT_Eid == id, MT_eti_fn.MT_EFestado == 1).exists()).order_by(MT_funciones.MT_Fnombre.asc()).all()
+    print(dato2)
     return render_template('Mantenimiento/EtiquetasFunciones/AsigEF_busqueda.html', asignados=dato2, funciones=dato3,
                            id=id)
 
-def delete_FuncionesxEtiqueta(id, eid):
+def delete_FuncionesxEtiqueta(efid, id):
     try:
-        consulta = MT_eti_fn.query.filter_by(MT_EFid=id).first()
+        consulta = MT_eti_fn.query.filter_by(MT_EFid=efid).first()
         if consulta.MT_EFestado == 1:
             consulta.MT_EFestado = 2
             flash('Asignacion deshabilitado con éxito', 'success')
@@ -164,9 +166,10 @@ def delete_FuncionesxEtiqueta(id, eid):
             consulta.MT_EFestado = 1
             flash('Asignacion Habilitado con éxito', 'success')
         # db.session.delete(consulta)
+        print(consulta)
         db.session.commit()
         db.session.remove()
-        return redirect(url_for('R2V0X0Z1bmNpb25lc3hFdGlxdWV0YQ', id=eid))
+        return redirect(url_for('R2V0X0Z1bmNpb25lc3hFdGlxdWV0YQ', id=id))
     except Exception as e:
         flash('Error al tratar de eliminar: ' + str(e), 'danger')
         return redirect(url_for('R2V0X0Z1bmNpb25lc3hFdGlxdWV0YQ', id=id))

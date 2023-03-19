@@ -17,6 +17,9 @@ from functions.Mantenimiento.EtiquetasFunciones import List_EtiquetasFunciones, 
     Create_Etiqueta, Get_etiqueta, Update_Etiqueta, Create_Funciones, Get_funcion, Update_Funcion, \
     Create_Asignacion, Get_FuncionesxEtiqueta, delete_FuncionesxEtiqueta
 from functions.Mantenimiento.Trabajo import List_Asignados, Get_asignado_trabajo, Create_asignado_trabajo, delete_eliminar_asignado
+from functions.Mantenimiento.Asignado import List_Asignaciones,asignado_id
+from functions.Mantenimiento.Reportes import List_Reporte, List_Reporte2, List_Reporte3, Detaller_Reporte2,reporte_excel_RxT,Detaller_Reporte3,ReporteTotal3
+
 # from functions.Mantenimiento.Asignado import List_Asignaciones, asignado_id
 
 # REPORTE
@@ -25,17 +28,6 @@ from functions.Mantenimiento.Trabajo import List_Asignados, Get_asignado_trabajo
 from Models.Tables import db
 mail = Mail()
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/SAPPJIMENEZ'
-#
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://b89f67d0a6b885:0730de02@us-cdbr-east-03.cleardb.com/heroku_d16f233add31518'
-# app.config['SQLALCHEMY_POOL_RECYCLE'] = 28700 - 1
-# app.config['SQLALCHEMY_POOL_TIMEOUT'] = 28700
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#
-# db = SQLAlchemy(app)
-# ma = Marshmallow(app)
-#
-#
 # # CONFIGURACIONES
 @app.route('/Configuracion')
 @check_token
@@ -390,17 +382,17 @@ def ZGVsZXRlX2VsaW1pbmFyX2FzaWduYWRv(id, eid):
 #
 # # -------TRABAJO ASIGNADO----------
 #
-# @app.route('/Mantenimiento/Asignaciones', methods=['GET', 'POST'])
-# @check_token
-# @check_habilitado
-# def TGlzdF9Bc2lnbmFjaW9uZXM():
-#     return List_Asignaciones()
-#
-# @app.route('/Mantenimiento/Asignaciones/Respuesta/<string:id>', methods=['GET', 'POST'])
-# @check_token
-# @check_habilitado
-# def YXNpZ25hZG9faWQ(id):
-#     return asignado_id(id)
+@app.route('/Mantenimiento/Asignaciones', methods=['GET', 'POST'])
+@check_token
+@check_habilitado
+def TGlzdF9Bc2lnbmFjaW9uZXM():
+    return List_Asignaciones()
+
+@app.route('/Mantenimiento/Asignaciones/Respuesta/<string:id>', methods=['GET', 'POST'])
+@check_token
+@check_habilitado
+def YXNpZ25hZG9faWQ(id):
+    return asignado_id(id)
 
 # ------------------------------************------------------------------*
 # ------------------------------************------------------------------*
@@ -408,47 +400,47 @@ def ZGVsZXRlX2VsaW1pbmFyX2FzaWduYWRv(id, eid):
 # ------------------------------************------------------------------*
 # ---------------------------------REPORTE--------------------------------*
 
-# @app.route('/Mantenimiento/Reportes/Reporte_Trabajador', methods=['GET', 'POST'])
-# @check_token
-# @check_admin
-# def TGlzdF9SZXBvcnRl():
-#     return List_Reporte()
-#
-# @app.route('/Mantenimiento/Reportes/Reporte_Trabajador/Excel')
-# @check_token
-# @check_admin
-# def reporte_excel_RxTs():
-#     return reporte_excel_RxT()
-#
-# @app.route('/Mantenimiento/Reportes/Reporte_Ambientes', methods=['GET', 'POST'])
-# @check_token
-# @check_admin
-# def TGlzdF9SZXBvcnRlMg():
-#     return List_Reporte2()
-#
-# @app.route('/Mantenimiento/Asignaciones/Reporte_Ambientes/<string:id>', methods=['GET', 'POST'])
-# @check_token
-# @check_admin
-# def RGV0YWxsZXJfUmVwb3J0ZTMy(id):
-#     return Detaller_Reporte2(id)
-#
-# @app.route('/Mantenimiento/Reportes/Reporte_Indicadores', methods=['GET', 'POST'])
-# @check_token
-# @check_admin
-# def ReporteIndicadores():
-#     return List_Reporte3()
-# @app.route('/Mantenimiento/Reportes/Reporte_Indicadores/Export', methods=['GET', 'POST'])
-# @check_token
-# @check_admin
-# def Detaller_Reporte3s():
-#     return Detaller_Reporte3()
-# @app.route('/Mantenimiento/Reportes/Reporte_Indicadores/Indicadores', methods=['GET', 'POST'])
-# @check_token
-# @check_admin
-# def ReporteTotal3s():
-#     return ReporteTotal3()
+@app.route('/Mantenimiento/Reportes/Reporte_Trabajador', methods=['GET', 'POST'])
+@check_token
+@check_admin
+def TGlzdF9SZXBvcnRl():
+    return List_Reporte()
+
+@app.route('/Mantenimiento/Reportes/Reporte_Trabajador/Excel')
+@check_token
+@check_admin
+def reporte_excel_RxTs():
+    return reporte_excel_RxT()
+
+@app.route('/Mantenimiento/Reportes/Reporte_Ambientes', methods=['GET', 'POST'])
+@check_token
+@check_admin
+def TGlzdF9SZXBvcnRlMg():
+    return List_Reporte2()
+
+@app.route('/Mantenimiento/Asignaciones/Reporte_Ambientes/<string:id>', methods=['GET', 'POST'])
+@check_token
+@check_admin
+def RGV0YWxsZXJfUmVwb3J0ZTMy(id):
+    return Detaller_Reporte2(id)
+
+@app.route('/Mantenimiento/Reportes/Reporte_Indicadores', methods=['GET', 'POST'])
+@check_token
+@check_admin
+def ReporteIndicadores():
+    return List_Reporte3()
+@app.route('/Mantenimiento/Reportes/Reporte_Indicadores/Export', methods=['GET', 'POST'])
+@check_token
+@check_admin
+def Detaller_Reporte3s():
+    return Detaller_Reporte3()
+@app.route('/Mantenimiento/Reportes/Reporte_Indicadores/Indicadores', methods=['GET', 'POST'])
+@check_token
+@check_admin
+def ReporteTotal3s():
+    return ReporteTotal3()
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run()
+    app.run(port=90)

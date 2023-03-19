@@ -33,7 +33,7 @@ def create():
             _fecha = str(fecha)
             _estado = 1
             _empresa = request.form['empresa']
-            _fecha_modificacion = ''
+            _fecha_modificacion = None
 
             new_insert = Usuarios(_nombre, _apellido, _correo, _password, _estado, _empresa, _fecha, _fecha_modificacion)
             db.session.add(new_insert)
@@ -42,6 +42,7 @@ def create():
             db.session.remove()
             return redirect(url_for('VXN1YXJpb3M'))
         except Exception as e:
+            print(e)
             flash('Error al insertar usuario: ' + _nombre + ' ' + _apellido + '. Pueda que ya exista.', 'danger')
             return redirect(url_for('VXN1YXJpb3M'))
 
@@ -111,7 +112,7 @@ def create_accesos(id):
             return redirect(url_for('YWNjZXNvcw', id=id))
 
         except Exception as e:
-            flash('Error al crear acceso, pueda que ya exista el registro. ' + str(e), 'danger')
+            flash('Error al crear acceso ' + str(e), 'danger')
             return redirect(url_for('YWNjZXNvcw', id=id))
 
 

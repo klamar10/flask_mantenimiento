@@ -58,7 +58,9 @@
                     <i class="fas fa-hand-sparkles fa-fw"></i> Mantenimiento
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-<!--                    <li><a class="dropdown-item" href="/Mantenimiento/Asignaciones/1"><i class="fas fa-mobile-alt fa-fw"></i> Asignaciones</a></li>-->
+                    {% if session['rol'] == 'Trabajador'%}
+                    <li><a class="dropdown-item" href="/Mantenimiento/Asignaciones"><i class="fas fa-mobile-alt fa-fw"></i> Asignaciones</a></li>
+                    {% endif %}
                     {% if session['rol'] == 'Administrador'%}
 
                         <hr class="dropdown-divider"><a><i class="fas fa-laptop-house fa-fw"></i> Administracion</a>
