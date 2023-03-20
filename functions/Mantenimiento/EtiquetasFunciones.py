@@ -158,15 +158,21 @@ def Get_FuncionesxEtiqueta(id):
 
 def delete_FuncionesxEtiqueta(efid, id):
     try:
+        now = datetime.now()
+        fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
+
         consulta = MT_eti_fn.query.filter_by(MT_EFid=efid).first()
         if consulta.MT_EFestado == 1:
             consulta.MT_EFestado = 2
+            consulta.MT_EFfech_mod = fecha
             flash('Asignacion deshabilitado con éxito', 'success')
         else:
             consulta.MT_EFestado = 1
+            consulta.MT_EFestado = 2
+            consulta.MT_EFfech_mod = fecha
             flash('Asignacion Habilitado con éxito', 'success')
         # db.session.delete(consulta)
-        print(consulta)
+
         db.session.commit()
         db.session.remove()
         return redirect(url_for('R2V0X0Z1bmNpb25lc3hFdGlxdWV0YQ', id=id))
@@ -182,6 +188,7 @@ def Create_Asignacion(id, fid):
         b = MT_eti_fn.query.filter_by(MT_Eid=id, MT_Fid=fid).first()
         if b is not None:
             b.MT_EFestado = 1
+            b.MT_EFfech_mod = fecha
         else:
             etiqueta = id
             funcion = fid
