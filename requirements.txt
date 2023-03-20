@@ -11,6 +11,7 @@ SQLAlchemy
 flask-marshmallow
 Flask-Mail
 Flask-SQLAlchemy==3.0.2
+marshmallow-sqlalchemy==0.29.0
 PyMySQL==1.0.2
 xlwt
 pyodbc
