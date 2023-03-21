@@ -1,7 +1,7 @@
 from app import app
 from flask_mail import Mail
 from functions.Login import Init, Login, Logout, check_habilitado, check_token, check_admin
-
+import os
 from flask import Flask
 
 # app = Flask(__name__)
@@ -62,6 +62,9 @@ def VXBkYXRlX0NvbmZp(id):
 # # LOGIN
 @app.route('/')
 def SW5pdA():
+    CURR_DIR = os.getcwd()
+    print(CURR_DIR)
+    print(CURR_DIR + ' *******')
     return Init()
 
 
