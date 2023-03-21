@@ -79,9 +79,9 @@ def Init():
             # data1 = Areas.query.filter(Areas.Restado.in_([1]))
             session.clear()
             db.session.remove()
-            print(CURR_DIR + '\Login\List.html')
+            print(CURR_DIR + '/Login/List.html')
 
-            return render_template(CURR_DIR + '\Login\List.html')
+            return render_template(CURR_DIR + '/Login/List.html')
     except Exception as e:
         flash(str(e), 'danger')
         session.clear()
