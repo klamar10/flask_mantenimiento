@@ -62,6 +62,7 @@ def VXBkYXRlX0NvbmZp(id):
 # # LOGIN
 @app.route('/')
 def SW5pdA():
+
     CURR_DIR = os.getcwd()
     print(CURR_DIR)
     print(CURR_DIR + ' *******')
