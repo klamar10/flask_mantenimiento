@@ -64,8 +64,8 @@ def VXBkYXRlX0NvbmZp(id):
 def SW5pdA():
 
     CURR_DIR = os.getcwd()
-    print(CURR_DIR)
-    print(CURR_DIR + ' *******')
+    print(' *******')
+    print(os.listdir(CURR_DIR))
     return Init()
 
 
