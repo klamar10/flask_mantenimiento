@@ -2,7 +2,7 @@ from flask import render_template, request, flash, session, redirect, url_for
 from Models.Tables import Roles, Usuarios, Areas
 from functools import wraps
 from Models.Tables import db
-
+import os
 # FUNCIONES
 
 # valida token activo
@@ -54,6 +54,8 @@ def check_habilitado(f):
     return decorated
 
 def Init():
+    CURR_DIR = os.getcwd()
+    print(CURR_DIR)
     try:
         if session.permanent is True:
             try:
@@ -62,6 +64,7 @@ def Init():
                 if Estado is None:
                     db.session.remove()
                     session.clear()
+
                     return render_template('Login/List.html')
                 else:
                     db.session.remove()
@@ -76,7 +79,9 @@ def Init():
             # data1 = Areas.query.filter(Areas.Restado.in_([1]))
             session.clear()
             db.session.remove()
-            return render_template('Login/List.html')
+            print(CURR_DIR + '\Login\List.html')
+
+            return render_template(CURR_DIR + '\Login\List.html')
     except Exception as e:
         flash(str(e), 'danger')
         session.clear()
