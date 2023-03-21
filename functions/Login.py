@@ -81,7 +81,7 @@ def Init():
             db.session.remove()
             print(CURR_DIR + '/Login/List.html')
 
-            return render_template(CURR_DIR + '/Login/List.html')
+            return render_template(CURR_DIR + '/templates' + '/Login/List.html')
     except Exception as e:
         flash(str(e), 'danger')
         session.clear()
