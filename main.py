@@ -27,6 +27,10 @@ from functions.Mantenimiento.Reportes import List_Reporte, List_Reporte2, List_R
 # CONEXION
 from Models.Tables import db
 mail = Mail()
+from datetime import datetime
+import pytz
+now = datetime.now(pytz.timezone('America/Lima'))
+print(now)
 
 # # CONFIGURACIONES
 @app.route('/Configuracion')
