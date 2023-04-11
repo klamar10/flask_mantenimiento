@@ -1,6 +1,7 @@
 from Configuracion.db import mysql
 from flask import flash, render_template, request, redirect, flash, session, url_for
 from datetime import datetime
+import pytz
 def List_Empresas():
     acces = session.permanent
     rol = session['rol']
@@ -58,7 +59,7 @@ def get_usuario(id):
     return render_template('Usuarios/Editar.html', contact=data[0], roles=data2, estados=data3)
 
 def update(id):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     if request.method == 'POST':
         _nombre =request.form['nombre']

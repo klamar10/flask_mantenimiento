@@ -5,11 +5,11 @@ from Models.Tables import MT_ambientes, MT_eti_fn, MT_funciones, MT_etiquetas, M
 from Models.Tables import MT_areas
 from Models.Tables import Configuraciones, UAR_accesos, Areas, Roles
 from Models.Tables import db
-
+import pytz
 def List_Ambientes():
     try:
         # AMBIENTES
-        now = datetime.now()
+        now = datetime.now(pytz.timezone('America/Lima'))
         fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
         all = MT_ambientes.get_ambientes(self=1)
         # AREAS
@@ -21,7 +21,7 @@ def List_Ambientes():
         return redirect(url_for('SW5pdA'))
 
 def Create_Ambiente():
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     if request.method == 'POST':
         try:
@@ -50,7 +50,7 @@ def Get_ambiente(id):
     return render_template('Mantenimiento/Ambientes/Edit.html', ambiente=data, estados=data2, areas=data3)
 #
 def Update_MT_ambiente(id):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     if request.method == 'POST':
         try:
@@ -82,7 +82,7 @@ def Get_ambiente_V(id):
     return render_template('Mantenimiento/Ambientes/Vinculacion.html', pendientes=data1, vinculados=data2, id=id)
 
 def Create_Vincular(id, eid):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     try:
         b = MT_asig_et_fn.query.filter_by(MT_Abcodigo =id, MT_Eid =eid).first()

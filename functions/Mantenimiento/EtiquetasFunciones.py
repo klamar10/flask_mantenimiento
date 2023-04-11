@@ -5,7 +5,7 @@ from Models.Tables import MT_etiquetas, MT_funciones, MT_eti_fn
 from Models.Tables import MT_areas
 from Models.Tables import Configuraciones, UAR_accesos, Areas, Roles
 from Models.Tables import db
-
+import pytz
 consulta = bool
 
 
@@ -43,7 +43,7 @@ def List_Funciones():
 
 # ETIQUETAS
 def Create_Etiqueta():
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     if request.method == 'POST':
         try:
@@ -72,7 +72,7 @@ def Get_etiqueta(id):
 
 #
 def Update_Etiqueta(id):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     if request.method == 'POST':
         try:
@@ -91,7 +91,7 @@ def Update_Etiqueta(id):
 
 # FUNCIONES
 def Create_Funciones():
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     if request.method == 'POST':
         try:
@@ -122,7 +122,7 @@ def Get_funcion(id):
 
 #
 def Update_Funcion(id):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     if request.method == 'POST':
         try:
@@ -158,7 +158,7 @@ def Get_FuncionesxEtiqueta(id):
 
 def delete_FuncionesxEtiqueta(efid, id):
     try:
-        now = datetime.now()
+        now = datetime.now(pytz.timezone('America/Lima'))
         fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
 
         consulta = MT_eti_fn.query.filter_by(MT_EFid=efid).first()
@@ -182,7 +182,7 @@ def delete_FuncionesxEtiqueta(efid, id):
 
 
 def Create_Asignacion(id, fid):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     try:
         b = MT_eti_fn.query.filter_by(MT_Eid=id, MT_Fid=fid).first()

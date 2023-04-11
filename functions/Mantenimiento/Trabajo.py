@@ -5,7 +5,7 @@ from Models.Tables import Usuarios, MT_asig_et_fn, MT_asig_funciones, MT_ambient
 from Models.Tables import MT_areas
 from Models.Tables import MT_etiquetas, UAR_accesos, Areas, Roles
 from Models.Tables import db
-
+import pytz
 def List_Asignados():
     try:
         data1 = Usuarios.query.join(UAR_accesos, UAR_accesos.Uid == Usuarios.Uid)\
@@ -56,7 +56,7 @@ def Get_asignado_trabajo(id):
     return render_template('Mantenimiento/Asig_Trabajo/Asignacion.html',  asignados=data2, id=id, areas=data1)
 
 def Create_asignado_trabajo(id, aefid):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     try:
         b = MT_asig_funciones.query.filter_by(Uid =id, MT_AEFid =aefid, MT_ASFfech_asigdesde=request.form['desde'], MT_ASFfech_asighasta=request.form['hasta']).first()

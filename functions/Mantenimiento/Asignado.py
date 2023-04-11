@@ -6,10 +6,10 @@ from Models.Tables import MT_asig_funciones, MT_areas, MT_ambientes, MT_asig_et_
     MT_funcion_resp, MT_etiquetas
 from Models.Tables import db
 from sqlalchemy import func
-from sqlalchemy import distinct
+import pytz
 def List_Asignaciones():
     trabajador = session['Uid']
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y%m%d')
     cur = mysql.connection.cursor()
     cur.callproc("usp_listarAreas_asig", [trabajador, fecha])
@@ -32,7 +32,7 @@ def List_Asignaciones():
 
 
 def asignado_id(id):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     fecha2 = now.strftime('%Y%m%d')
     try:

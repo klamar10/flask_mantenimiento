@@ -5,7 +5,7 @@ from Models.Tables import MT_areas, MT_areas_scs
 from Models.Tables import Empresas
 from Models.Tables import Configuraciones, UAR_accesos, Areas, Roles
 from Models.Tables import db
-
+import pytz
 def List_Areas():
     try:
         # AREAS
@@ -19,7 +19,7 @@ def List_Areas():
         return redirect(url_for('SW5pdA'))
 
 def Create_Area():
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     if request.method == 'POST':
         try:
@@ -47,7 +47,7 @@ def get_area(id):
     return render_template('Mantenimiento/Areas/Editar.html', area=data, estados=data2, empresas=data3)
 
 def update_MT_area(id):
-    now = datetime.now()
+    now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S')
     if request.method == 'POST':
         try:
