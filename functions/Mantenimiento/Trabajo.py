@@ -32,8 +32,6 @@ def Get_asignado_trabajo(id):
        try:
            area = request.form['area']
            print(area)
-
-
            pendientes = MT_ambientes.query.join(MT_asig_et_fn, MT_asig_et_fn.MT_Abcodigo == MT_ambientes.MT_Abcodigo)\
                .join(MT_etiquetas, MT_etiquetas.MT_Eid == MT_asig_et_fn.MT_Eid)\
                .filter(MT_ambientes.MT_ABestado == 1, MT_ambientes.MT_Aid==area,MT_asig_et_fn.MT_AEFestado==1,
@@ -59,7 +57,7 @@ def Create_asignado_trabajo(id, aefid):
     now = datetime.now(pytz.timezone('America/Lima'))
     fecha = now.strftime('%Y-%m-%d %H:%M:%S.000000')
     try:
-        b = MT_asig_funciones.query.filter_by(Uid =id, MT_AEFid =aefid, MT_ASFfech_asigdesde=request.form['desde'], MT_ASFfech_asighasta=request.form['hasta']).first()
+        b = MT_asig_funciones.query.filter_by(Uid =id, MT_AEFid =aefid).first()
         if b is not None:
             b.MT_ASFestado = 1
             b.MT_ASFfech_crea = str(fecha)

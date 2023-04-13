@@ -14,6 +14,7 @@ def List_Asignaciones():
     cur = mysql.connection.cursor()
     cur.callproc("usp_listarAreas_asig", [trabajador, fecha])
     select = list(cur.fetchall())
+    print(select)
     cur.close()
     if request.method == 'POST':
         print(request.form['area'])
@@ -23,6 +24,7 @@ def List_Asignaciones():
             cur.callproc("usp_listarAsignaciones", [area, fecha, trabajador])
             print(area, fecha, trabajador)
             data = list(cur.fetchall())
+            print(data)
             cur.close()
             return render_template('Mantenimiento/Trabajo/List.html', select=select, ambientes=data)
         except Exception as e:
