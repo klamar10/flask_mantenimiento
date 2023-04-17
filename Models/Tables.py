@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from app import app
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://adrian:password@159.89.48.159/adminbd_college'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1234@localhost:3306/adminbd_college'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://adrian:password@159.89.48.159/adminbd_college'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1234@localhost:3306/adminbd_college'
 
 
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mssql+pyodbc://usuario1:123@127.0.0.1/farmaco_bd?driver=SQL+Server"
