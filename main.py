@@ -22,9 +22,6 @@ from functions.Mantenimiento.Reportes import List_Reporte, List_Reporte2, List_R
 
 # from functions.Mantenimiento.Asignado import List_Asignaciones, asignado_id
 
-# REPORTE
-# from functions.Mantenimiento.Reportes import List_Reporte, reporte_excel_RxT, List_Reporte2, Detaller_Reporte2, List_Reporte3, Detaller_Reporte3, ReporteTotal3
-# CONEXION
 from Models.Tables import db
 mail = Mail()
 from datetime import datetime
