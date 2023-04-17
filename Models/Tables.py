@@ -4,6 +4,7 @@ from app import app
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://adrian:password@159.89.48.159/adminbd_college'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:1234@localhost:3306/adminbd_college'
 
+
 # app.config["SQLALCHEMY_DATABASE_URI"] = "mssql+pyodbc://usuario1:123@127.0.0.1/farmaco_bd?driver=SQL+Server"
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://b4ba93774ba5cd:8d85ef45@us-cdbr-east-03.cleardb.com/heroku_a2320043afa4b7d'
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 60
