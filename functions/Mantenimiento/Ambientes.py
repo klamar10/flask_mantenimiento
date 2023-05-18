@@ -78,6 +78,7 @@ def Get_ambiente_V(id):
         .filter(MT_asig_et_fn.MT_AEFestado ==1, MT_etiquetas.MT_Eestado ==1, MT_asig_et_fn.MT_Abcodigo == id)\
         .add_columns(MT_asig_et_fn.MT_AEFid, MT_etiquetas.MT_Eid ,MT_etiquetas.MT_Enombre, MT_asig_et_fn.MT_AEFfech_crea)\
         .order_by(MT_etiquetas.MT_Enombre.asc()).all()
+
     db.session.remove()
     return render_template('Mantenimiento/Ambientes/Vinculacion.html', pendientes=data1, vinculados=data2, id=id)
 
